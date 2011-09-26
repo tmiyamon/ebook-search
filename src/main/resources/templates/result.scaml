@@ -1,0 +1,50 @@
+-@ val title: String = "Scheduler"
+-@ val header: String = "Scheduler"
+-@ val quartzStatus: String = "No quartz status information available"
+-@ val scheduledTasks: List[Map[String, String]] = Nil
+-@ val quartzInformation: String = "No quartz information available"
+-@ val query: String = "query"
+-@ val books: List[com.example.EBook] = Nil
+!!! 5
+%html
+  %head
+    %title= title
+  %body
+    %h1
+      != header
+    %h5
+      != quartzStatus
+
+    %table{:border => 1}
+      %thead
+        %td Task
+        %td Status
+        %td Quantity
+        %td Last Attempt Start Time
+        %td Last Attempt Finish Time
+        %td Last Successful Run Start Time
+        %td Last Successful Run Finish Time
+        %td Last Error
+        %td Action
+      = for(scheduledTask <- scheduledTasks)
+        %tbody
+          %td= scheduledTask.get("name").get
+          %td= scheduledTask.get("status").get
+          %td= scheduledTask.get("quantity").get
+          %td= scheduledTask.get("lastRunStart").get
+          %td= scheduledTask.get("lastRunFinish").get
+          %td= scheduledTask.get("lastSuccessStart").get
+          %td= scheduledTask.get("lastSuccessFinish").get
+          %td= scheduledTask.get("lastException").get
+          %td
+            %form(method="post")
+              %input(type="submit" name={scheduledTask.get("action").get} value="Run now")
+    %div
+      %div query
+      %div= query
+    %div
+      = for(book <- books)
+        %div
+          %div= book.title
+          %div= book.author
+          %div= book.publisher
