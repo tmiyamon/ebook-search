@@ -1,11 +1,77 @@
+-#@ var body: String
+-#@ var title: String = "title"
+-# response.setContentType("text/html")
+-# val include_console = engine.isDevelopmentMode && engine.resourceLoader.exists("/org/fusesource/scalate/console/console_head.scaml")
+-#!!! 5
+-#html
+-#  head
+-#    meta(charset="UTF-8")
+-#    title= title
+-#    link(href="www/css/app.css" rel="stylesheet")
+-#  body
+-#    header#header header
+-#    != body
+-#    footer#footer footer
+
 -@ var body: String
--@ var title: String = "title"
-!!! 5
-html
+-@ var title : String = "Scalate Sample"
+-@ var footer : String = ""
+-@ var head : String = ""
+-# response.setContentType("text/html")
+-# Only include the console if it's available and the engine is in dev mode.
+- val include_console = engine.isDevelopmentMode && engine.resourceLoader.exists("/org/fusesource/scalate/console/console_head.scaml")
+
+!!! Basic
+html(lang="en")
   head
-    title= title
+    meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
+    meta(name="description" content="description goes here")
+    meta(name="keywords" content="keywords,goes,here")
+    meta(name="author" content="Your Name")
+
+    - if (include_console)
+      = include("/org/fusesource/scalate/console/console_head.scaml")
+
+    link(href={uri("/css/style.css")} rel="stylesheet" type="text/css")
+    link(href={uri("/css/pygmentize.css")} rel="stylesheet" type="text/css")
+
+    - if (include_console)
+      link(href={uri("/css/scalate/console.css")} rel="stylesheet" type="text/css")
+
+    script(src={uri("/highlight/highlight.js")} type="text/javascript")
+    script(src={uri("/highlight/languages/java.js")} type="text/javascript")
+    script(src={uri("/highlight/languages/scala.js")} type="text/javascript")
+    link(href={uri("/highlight/styles/default.css")} rel="stylesheet" type="text/css")
+    -# link(href={uri("/highlight/styles/github.css")} rel="stylesheet" type="text/css")
+    :javascript
+      hljs.initHighlightingOnLoad();
+
+    title
+      = title
+    !~~ head
+
   body
-    p header
-    != body
-    p footer
+    #navigation
+      .wrapper
+        ul
+          - if (requestUri.startsWith("/index."))
+            li
+              span Home
+          - else
+            li
+              a(href={uri("/")})
+                Home
+          li
+            a(href="http://scalate.fusesource.org/")
+              Documentation
+
+    #content
+      .wrapper
+        !~~ body
+
+    #footer
+      .wrapper
+        !~~ footer
+        - if (include_console)
+          = include("/org/fusesource/scalate/console/console.scaml")
 

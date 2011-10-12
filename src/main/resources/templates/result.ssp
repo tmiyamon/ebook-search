@@ -1,2 +1,0 @@
-<%@ var query: String = "Salt Lake City" %>
-<h2> Query is ${query}</h1>

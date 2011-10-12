@@ -37,3 +37,5 @@ seq(webSettings :_*)
 unmanagedClasspath in Runtime <+= (scalaInstance) map { (scala) => Attributed.blank(scala.compilerJar) }
 
 scalacOptions ++= Seq("-deprecation")
+
+logLevel := Level.Debug
